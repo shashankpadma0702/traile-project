@@ -1,0 +1,7 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add this below Tailwind imports */
+@import 'leaflet/dist/leaflet.css';

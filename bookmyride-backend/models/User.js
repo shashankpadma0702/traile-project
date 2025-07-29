@@ -1,32 +1,37 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const bcrypt = require('bcrypt');
+const sequelize = require('../config/db'); // ✅ Use only this, not ../config/database
 
 const User = sequelize.define('User', {
   name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   },
   email: {
     type: DataTypes.STRING,
-    unique: true,
     allowNull: false,
+    unique: true
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false,
-  },
-  gender: {
-    type: DataTypes.ENUM('male', 'female'),
-    allowNull: false,
+    allowNull: false
   },
   role: {
-    type: DataTypes.ENUM('customer', 'driver'),
-    defaultValue: 'customer',
+    type: DataTypes.STRING,
+    defaultValue: 'customer' // You can also use 'user' or 'admin'
   },
   points: {
     type: DataTypes.INTEGER,
-    defaultValue: 0,
+    defaultValue: 0
   }
+}, {
+  tableName: 'users',
+  timestamps: true
+});
+
+// 🔐 Hash password before saving
+User.beforeCreate(async (user) => {
+  user.password = await bcrypt.hash(user.password, 10);
 });
 
 module.exports = User;

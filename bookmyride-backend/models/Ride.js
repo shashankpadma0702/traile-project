@@ -1,8 +1,15 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-const User = require('./User');
+const sequelize = require('../config/db'); // ✅ Correct path to your Sequelize setup
 
 const Ride = sequelize.define('Ride', {
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  driverId: {
+    type: DataTypes.INTEGER,
+    allowNull: true, // Ride can exist before driver is assigned
+  },
   pickupLocation: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -12,21 +19,17 @@ const Ride = sequelize.define('Ride', {
     allowNull: false,
   },
   status: {
-    type: DataTypes.ENUM('pending', 'accepted', 'in_progress', 'completed', 'cancelled'),
-    defaultValue: 'pending',
-  },
-  otp: {
     type: DataTypes.STRING,
-    allowNull: true,
+    defaultValue: 'pending', // Other options: 'assigned', 'completed', 'cancelled'
   },
-  pointsEarned: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-  }
+  driverAssignedAt: {
+    type: DataTypes.DATE,
+    allowNull: true, // Set when driver gets assigned
+  },
+  fare: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0, // Calculated once ride is completed
+  },
 });
-
-// Relationships
-Ride.belongsTo(User, { as: 'customer', foreignKey: 'customerId' });
-Ride.belongsTo(User, { as: 'driver', foreignKey: 'driverId' });
 
 module.exports = Ride;
