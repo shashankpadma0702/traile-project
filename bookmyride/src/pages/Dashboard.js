@@ -1,18 +1,24 @@
-import Navbar from '../components/Navbar';
+import React from 'react';
 import MapView from '../components/MapView';
 import RideOptions from '../components/RideOptions';
+import Navbar from '../components/Navbar';
 
 export default function Dashboard() {
   return (
-    <div className="h-screen flex flex-col">
-      <Navbar />
-      <div className="flex flex-col md:flex-row flex-1">
-        <div className="h-screen flex flex-col">
-          <MapView />
+    <div className="min-h-screen bg-gray-100 flex justify-center p-3">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-md overflow-hidden">
+
+        <div className="bg-blue-600 text-white rounded-t-2xl p-4">
+          <div className="flex justify-between flex-wrap gap-2">
+          </div>
         </div>
-        <div className="w-full md:w-1/3 p-4 bg-gray-100">
+
+        <div className="p-4 space-y-4">
+          
+          <MapView />
           <RideOptions />
         </div>
+        
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 // src/components/RideOptions.js
+
 import { useContext } from 'react';
 import {
   FaBicycle,
@@ -7,106 +8,113 @@ import {
   FaMapMarkerAlt,
   FaLocationArrow,
   FaUser,
+  FaStar,
 } from 'react-icons/fa';
 import { RideContext } from '../context/RideContext';
+import MapView from './MapView'; // ✅ Import your live map
+import './RideOptions.css';
+import Navbar from './Navbar'; // ✅ Import the Navbar component
 
 export default function RideOptions() {
-  const { pickup, setPickup, drop, setDrop, rideType, setRideType } = useContext(RideContext);
+  const {
+    rideType,
+    setRideType,
+    pickup,
+    setPickup,
+    drop,
+    setDrop,
+  } = useContext(RideContext);
+
+  const handleRideSelection = (type) => {
+    setRideType(type);
+  };
 
   const handleBookRide = () => {
     if (!pickup || !drop) {
-      alert('Please enter both pickup and drop locations.');
+      alert('Please enter both pickup and drop locations!');
       return;
     }
-    alert(`Booking a ${rideType} ride from ${pickup} to ${drop}`);
-    // ✅ You can send this to backend via Axios here
+    alert(`🚗 Booking a ${rideType} ride from "${pickup}" to "${drop}"...`);
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 w-full space-y-6">
-      <h1 className="text-2xl font-bold text-blue-900">Book a Ride</h1>
-      <p className="text-gray-500 text-sm">
-        Choose ride type and set pickup & drop-off locations.
-      </p>
+    <div className="ride-container">
+      <h2 className="ride-title">Book My Ride</h2>
+      <Navbar />
+      <p className="ride-subtitle">Choose your ride type and set your route</p>
 
-      {/* Ride Type */}
-      <div>
-        <label className="text-sm font-semibold">Ride Type</label>
-        <div className="flex gap-2 mt-2">
-          <button
-            className={`flex-1 p-2 rounded-md flex items-center justify-center gap-2 text-sm font-medium ${
-              rideType === 'bike' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-            }`}
-            onClick={() => setRideType('bike')}
-          >
-            <FaBicycle /> Bike
-          </button>
-          <button
-            className={`flex-1 p-2 rounded-md flex items-center justify-center gap-2 text-sm font-medium ${
-              rideType === 'auto' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-            }`}
-            onClick={() => setRideType('auto')}
-          >
-            <FaShuttleVan /> Auto
-          </button>
-          <button
-            className={`flex-1 p-2 rounded-md flex items-center justify-center gap-2 text-sm font-medium ${
-              rideType === 'taxi' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
-            }`}
-            onClick={() => setRideType('taxi')}
-          >
-            <FaCar /> Taxi
-          </button>
-        </div>
+      {/* ✅ Live Map Display */}
+      <div className="map-placeholder">
+        <MapView />
       </div>
 
-      {/* Pickup Input */}
-      <div>
-        <label className="text-sm font-semibold">Pickup Location</label>
-        <div className="flex items-center gap-2 p-2 bg-gray-100 rounded mt-1">
-          <FaMapMarkerAlt className="text-blue-500" />
-          <input
-            type="text"
-            placeholder="Enter pickup location"
-            value={pickup}
-            onChange={(e) => setPickup(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-sm"
-          />
-        </div>
+      {/* Ride Type Selection */}
+      <label className="ride-type-label">Select Ride Type</label>
+      <div className="ride-type-buttons">
+        <button
+          className={`ride-button ${rideType === 'bike' ? 'active' : ''}`}
+          onClick={() => handleRideSelection('bike')}
+        >
+          <FaBicycle /> Bike
+        </button>
+        <button
+          className={`ride-button ${rideType === 'auto' ? 'active' : ''}`}
+          onClick={() => handleRideSelection('auto')}
+        >
+          <FaShuttleVan /> Auto
+        </button>
+        <button
+          className={`ride-button ${rideType === 'car' ? 'active' : ''}`}
+          onClick={() => handleRideSelection('car')}
+        >
+          <FaCar /> Car
+        </button>
       </div>
 
-      {/* Drop Input */}
-      <div>
-        <label className="text-sm font-semibold">Drop-off Location</label>
-        <div className="flex items-center gap-2 p-2 bg-gray-100 rounded mt-1">
-          <FaLocationArrow className="text-blue-500" />
-          <input
-            type="text"
-            placeholder="Enter drop location"
-            value={drop}
-            onChange={(e) => setDrop(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-sm"
-          />
-        </div>
+      {/* Pickup Location */}
+      <label className="input-label">Pickup Location</label>
+      <div className="input-box">
+        <FaMapMarkerAlt className="input-icon" />
+        <input
+          type="text"
+          value={pickup}
+          onChange={(e) => setPickup(e.target.value)}
+          placeholder="Enter Pickup Location"
+        />
       </div>
 
-      {/* Book Button */}
-      <button
-        onClick={handleBookRide}
-        className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
-      >
+      {/* Drop Location */}
+      <label className="input-label">Drop Location</label>
+      <div className="input-box">
+        <FaLocationArrow className="input-icon" />
+        <input
+          type="text"
+          value={drop}
+          onChange={(e) => setDrop(e.target.value)}
+          placeholder="Enter Drop Location"
+        />
+      </div>
+
+      {/* Book Ride Button */}
+      <button className="book-button" onClick={handleBookRide}>
         Book Ride
       </button>
 
-      {/* Info */}
-      <div className="border-t pt-4 space-y-2 text-sm">
-        <div>
-          <span className="font-semibold">Rewards:</span>{' '}
-          <span className="text-green-600">+12.50 points</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <FaUser className="text-gray-600" />
-          <span className="font-semibold">Driver: John Doe</span> (4.8⭐)
+      {/* Info and Rewards */}
+      <div className="info-box">
+        <div className="reward-text">🎉 You will earn 25 reward points!</div>
+        <button className="redeem-button">Redeem for Subscriptions</button>
+
+        <div className="driver-info">
+          <div className="driver-avatar">
+            <FaUser />
+          </div>
+          <div>
+            <div className="driver-name">Driver: Rahul</div>
+            <div className="driver-rating">
+              <FaStar /> 4.8 ★
+            </div>
+          </div>
         </div>
       </div>
     </div>

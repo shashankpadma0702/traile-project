@@ -1,10 +1,8 @@
 import { createContext, useState } from 'react';
 
-// 1️⃣ Create the context
 export const RideContext = createContext();
 
-// 2️⃣ Provide context to children
-export function RideProvider({ children }) {
+export const RideProvider = ({ children }) => {
   const [pickup, setPickup] = useState('');
   const [drop, setDrop] = useState('');
   const [rideType, setRideType] = useState('bike');
@@ -14,4 +12,4 @@ export function RideProvider({ children }) {
       {children}
     </RideContext.Provider>
   );
-}
+};

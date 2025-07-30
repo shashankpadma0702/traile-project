@@ -1,6 +1,8 @@
+// bookmyride-backend/models/User.js
+
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = require('../config/db'); // ✅ Use only this, not ../config/database
+const sequelize = require('../config/db'); // make sure db.js is correctly exporting sequelize instance
 
 const User = sequelize.define('User', {
   name: {
@@ -18,7 +20,7 @@ const User = sequelize.define('User', {
   },
   role: {
     type: DataTypes.STRING,
-    defaultValue: 'customer' // You can also use 'user' or 'admin'
+    defaultValue: 'customer'
   },
   points: {
     type: DataTypes.INTEGER,

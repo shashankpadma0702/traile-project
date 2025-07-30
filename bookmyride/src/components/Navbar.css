@@ -1,0 +1,31 @@
+.navbar-container {
+  background-color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  border-radius: 15px; /* 🔵 Updated here */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-button {
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+  font-weight: bold;
+  padding: 6px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.navbar-button:hover {
+  background-color: #1e3a8a; /* darker blue */
+}
+
+.navbar-button.logout:hover {
+  background-color: #dc2626; /* red-600 */
+}

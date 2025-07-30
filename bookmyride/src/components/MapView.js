@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
+import './MapView.css'; // ✅ Import the custom CSS
 
 // Fix for default Leaflet marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -29,21 +30,23 @@ export default function MapView() {
   }, []);
 
   return (
-    <div className="h-full w-full rounded-lg overflow-hidden">
-      <MapContainer
-        center={position}
-        zoom={14}
-        scrollWheelZoom={true}
-        style={{ height: '100%', width: '100%' }}
-      >
-        <TileLayer
-          attribution="&copy; OpenStreetMap"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={position}>
-          <Popup>You are here</Popup>
-        </Marker>
-      </MapContainer>
+    <div className="map-container">
+      <div className="leaflet-map-wrapper">
+        <MapContainer
+          center={position}
+          zoom={14}
+          scrollWheelZoom={true}
+          className="leaflet-container"
+        >
+          <TileLayer
+            attribution="&copy; OpenStreetMap"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={position}>
+            <Popup>You are here</Popup>
+          </Marker>
+        </MapContainer>
+      </div>
     </div>
   );
 }
